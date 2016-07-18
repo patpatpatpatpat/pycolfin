@@ -11,7 +11,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    # TODO: put package requirements here
+    'colorama>=0.3.7',
+    'prettytable>=0.7.2',
+    'robobrowser>=0.5.3',
 ]
 
 test_requirements = [
