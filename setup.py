@@ -28,6 +28,7 @@ setup(
     author="Ed Patrick Tan",
     author_email='pat.keeps.looking.up@gmail.com',
     url='https://github.com/patpatpatpatpat/pycolfin',
+    download_url='https://github.com/patpatpatpatpat/pycolfin/tarball/0.1',
     packages=[
         'pycolfin',
     ],
@@ -42,7 +43,7 @@ setup(
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='pycolfin',
+    keywords=['pycolfin', 'colfinancial'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
