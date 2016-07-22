@@ -34,8 +34,14 @@ def main(verbosity):
         account.show_portfolio_summary()
     if verbosity == 3:
         account.fetch_detailed_portfolio()
-        account.show_detailed_stocks()
-        account.show_detailed_mutual_fund()
+        try:
+            account.show_detailed_stocks()
+        except Exception as e:
+            print(e)
+        try:
+            account.show_detailed_mutual_fund()
+        except Exception as e:
+            print(e)
 
 
 if __name__ == "__main__":
