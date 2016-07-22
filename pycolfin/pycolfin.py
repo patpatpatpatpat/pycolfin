@@ -105,7 +105,6 @@ class COLFin(RoboBrowser):
             in self.find_all('b')
         ]
         self.account_summary = OrderedDict()
-        self.account_summary['Account Number'] = account
         self.account_summary['Last Login'] = last_login
         self.account_summary['Equity Value'] = equity_value
         self.account_summary['Day Change'] = day_change
