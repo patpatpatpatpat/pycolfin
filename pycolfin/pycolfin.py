@@ -69,9 +69,9 @@ class COLFin(RoboBrowser):
 
     def get_color(self, string):
         """
-        0 - No change, yellow
-        Negative - Red
-        Positive - Green
+        0 - Unchanged, use yellow
+        Negative - Down for the day, use red
+        Positive - Up for the day, use green
         """
         value = float(string.strip('%').replace(',', ''))
         if 0 == value:
