@@ -1,7 +1,6 @@
 # pycolfin
 
-.. image:: https://img.shields.io/pypi/v/pycolfin.svg
-        :target: https://pypi.python.org/pypi/pycolfin
+![pypi](https://img.shields.io/pypi/v/pycolfin.svg)
 
 View your investments' performance at http://www.colfinancial.com via terminal
 
@@ -29,8 +28,11 @@ Options:
 ```
 
 * Verbosity = 1
+![v1](images/v1.png)
 * Verbosity = 2
+![v1](images/v2.png)
 * Verbosity = 3
+![v1](images/v3.png)
 
 ## Features
 
