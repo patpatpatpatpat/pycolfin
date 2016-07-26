@@ -13,9 +13,10 @@ View your investments' performance at http://www.colfinancial.com via terminal
 
 Installation
 ------------
-    # Only works for Python3.x
-    pip install pycolfin
-
+```
+# Only works for Python3.x
+pip install pycolfin
+```
 Usage
 -----
 
@@ -33,11 +34,8 @@ Options:
 ```
 
 * Verbosity = 1
-![verbosity-1](gifs/v1.gif)
 * Verbosity = 2
-![verbosity-1](gifs/v2.gif)
 * Verbosity = 3
-![verbosity-1](gifs/v3.gif)
 
 
 Features
