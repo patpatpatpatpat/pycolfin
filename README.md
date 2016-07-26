@@ -1,6 +1,6 @@
 # pycolfin
 
-![pypi](https://img.shields.io/pypi/v/pycolfin.svg)
+[![pypi](https://img.shields.io/pypi/v/pycolfin.svg)](https://pypi.python.org/pypi/pycolfin)
 
 View your investments' performance at http://www.colfinancial.com via terminal
 
