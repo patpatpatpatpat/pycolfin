@@ -28,6 +28,13 @@ Options:
   --help                         Show this message and exit.
 ```
 
+* Verbosity = 1
+![v1](gifs/v1.gif)
+* Verbosity = 2
+![v1](gifs/v2.gif)
+* Verbosity = 3
+![v1](gifs/v3.gif)
+
 ## Features
 
 * See Issues page: https://github.com/patpatpatpatpat/pycolfin/issues
