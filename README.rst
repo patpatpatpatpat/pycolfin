@@ -1,7 +1,4 @@
-===============================
-pycolfin
-===============================
-
+# pycolfin
 
 .. image:: https://img.shields.io/pypi/v/pycolfin.svg
         :target: https://pypi.python.org/pypi/pycolfin
@@ -11,15 +8,13 @@ View your investments' performance at http://www.colfinancial.com via terminal
 
 * Free software: MIT license
 
-Installation
-------------
+## Installation
 ```
 # Only works for Python3.x
 pip install pycolfin
 ```
-Usage
------
 
+## Usage
 ```
 Usage: pycolfin [OPTIONS]
 
@@ -33,18 +28,11 @@ Options:
   --help                         Show this message and exit.
 ```
 
-* Verbosity = 1
-* Verbosity = 2
-* Verbosity = 3
-
-
-Features
---------
+## Features
 
 * See Issues page: https://github.com/patpatpatpatpat/pycolfin/issues
 
-Credits
----------
+## Credits
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
