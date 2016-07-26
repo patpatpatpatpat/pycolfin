@@ -69,13 +69,14 @@ class COLFin(RoboBrowser):
 
     def get_color(self, string):
         """
-        0.00 - No change
-        has negative sign - Red
-        no negative sign - Green
+        0 - No change, yellow
+        Negative - Red
+        Positive - Green
         """
-        if '0.00' in string:
+        value = float(string.strip('%').replace(',', ''))
+        if 0 == value:
             return Fore.YELLOW
-        elif '-' in string:
+        elif value < 0:
             return Fore.RED
         else:
             return Fore.GREEN
