@@ -26,7 +26,6 @@ class COLFin(RoboBrowser):
     def __init__(self, user_id, password, **kwargs):
         super(COLFin, self).__init__(**kwargs)
         self.login(user_id, password)
-        self.check_page_for_errors()
 
     def check_page_for_errors(self):
         """
