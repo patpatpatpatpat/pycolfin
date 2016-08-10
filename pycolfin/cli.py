@@ -3,7 +3,8 @@ import os
 from getpass import getpass
 
 import click
-from pycolfin import COLFin
+
+from .pycolfin import COLFin
 
 
 verbosity_help = """
