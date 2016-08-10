@@ -18,7 +18,9 @@ pip install pycolfin
 Usage: pycolfin [OPTIONS]
 
 Options:
-  -v, --verbosity INTEGER RANGE  1 = Last Login, Equity Value, Day
+  --use-env-vars                 Use USER_ID and PASSWORD from environment
+                                 variables
+  -v, --verbosity INTEGER RANGE  1 = User ID, Last Login, Equity Value, Day
                                  Change
                                  2 = Display all info from 1 and
                                  portfolio summary
