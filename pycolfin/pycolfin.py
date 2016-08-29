@@ -54,15 +54,28 @@ class COLFin(RoboBrowser):
             raise Exception(invalid_user_id_msg)
 
     def login(self, user_id, password):
+        """
+        How colfinancial's user login works
+
+        Step 1: User ID and password are entered in the form (first) in the login page.
+        Step 2: When the form is submitted, it redirects to another page which
+                contains another form (second). The credentials used in the first form are transferred to the second form.
+        Step 3: Once the second form is submitted, colfinancial checks if the credentials
+                are valid. If authorized to log in, page redirects to homepage. If not authorized,
+                an alert containing an error message is showed.
+        """
         self._validate_user_id(user_id)
         user1, user2 = user_id.split('-')
+        # Step 1
         self.open(self.urls['login'])
         first_form = self.get_form('login')
         first_form['txtUser1'] = user1
         first_form['txtUser2'] = user2
         first_form['txtPassword'] = password
+        # Step 2
         self.submit_form(first_form)
         second_form = self.get_form('login')
+        # Step 3
         self.submit_form(second_form)
         self.check_page_for_errors()
 
