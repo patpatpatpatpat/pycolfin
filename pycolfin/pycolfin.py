@@ -22,25 +22,22 @@ class COLFin(RoboBrowser):
         'portfolio_summary': 'https://ph6.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
         'detailed_portfolio': 'https://ph6.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
     }
+    # The values are the exact strings present in the error pages.
+    error_messages = {
+        'server_error': 'Server error.',
+        'session_expired': 'Your session has timed out.',
+        'invalid_login': 'Invalid / Not Authorized to Log-in',
+    }
 
     def __init__(self, user_id, password, **kwargs):
         super(COLFin, self).__init__(**kwargs)
         self.login(user_id, password)
 
     def check_page_for_errors(self):
-        """
-        Some messages are the actual strings present in the error pages.
-        """
-        time_out_msg = 'Your session has timed out.'
-        invalid_login_msg = 'Invalid / Not Authorized to Log-in'
-        server_error_msg = 'Server error.'
-
         if self.response.status_code == 500:
-            raise Exception(server_error_msg)
-        elif invalid_login_msg in self.parsed.text:
-            raise Exception(invalid_login_msg)
-        elif time_out_msg in self.parsed.text:
-            raise Exception(time_out_msg)
+            raise Exception(self.error_messages['server_error'])
+        elif self.error_messages['session_expired'] in self.parsed.text:
+            raise Exception(self.error_messages['session_expired'])
 
     def open(self, *args, **kwargs):
         super().open(*args, **kwargs)
@@ -77,7 +74,9 @@ class COLFin(RoboBrowser):
         second_form = self.get_form('login')
         # Step 3
         self.submit_form(second_form)
-        self.check_page_for_errors()
+
+        if self.error_messages['invalid_login'] in self.parsed.text:
+            raise Exception(self.error_messages['invalid_login'])
 
     def get_color(self, string):
         """
