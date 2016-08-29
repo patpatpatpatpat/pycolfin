@@ -13,7 +13,9 @@ verbosity_help = """
 3 = Display all info in 1 & 2 and detailed portfolio
 """
 use_env_vars_help = """
-Use USER_ID and PASSWORD from environment variables
+Use USER_ID and PASSWORD from environment variables.
+Not recommended if you are using a shared computer!
+(This is like storing bank credentials in a text file)
 """
 
 
