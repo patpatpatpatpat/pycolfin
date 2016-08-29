@@ -20,7 +20,11 @@ Usage: pycolfin [OPTIONS]
 
 Options:
   --use-env-vars                 Use USER_ID and PASSWORD from environment
-                                 variables
+                                 variables.
+                                 Not recommended if you are using a
+                                 shared computer!
+                                 (This is like storing bank
+                                 credentials in a text file)
   -v, --verbosity INTEGER RANGE  1 = User ID, Last Login, Equity Value, Day
                                  Change
                                  2 = Display all info from 1 and
