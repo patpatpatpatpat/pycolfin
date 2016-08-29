@@ -25,7 +25,7 @@ class TestCOLFin(object):
         """
         valid_username = '1234-4567'
         valid_password = 'pycolfintest'
-        colfin = pycolfin.COLFin(valid_username, valid_password)
+        pycolfin.COLFin(valid_username, valid_password)
 
         assert login.called
         assert login.call_args[0] == (valid_username, valid_password)
@@ -48,12 +48,14 @@ class TestCOLFin(object):
         else:
             assert False
 
+    @mock.patch.object(pycolfin.COLFin, 'response')
     @mock.patch.object(pycolfin.COLFin, 'parsed')
     @mock.patch.object(pycolfin.COLFin, 'login')
-    def test_check_for_session_expiration(self, login, dummy_parsed_response):
+    def test_check_for_session_expiration(self, login, dummy_parsed_response, dummy_response):
         """
         Raise exception with message if session expired when loading a page
         """
+        dummy_response.status_code = 200
         dummy_parsed_response.text = 'Your session has timed out.'
         username = '1234-4567'
         password = 'pycolfintest'
@@ -61,7 +63,7 @@ class TestCOLFin(object):
 
         try:
             colfin.check_page_for_errors()
-        except Exception:
+        except Exception as e:
             assert True
         else:
             assert False
