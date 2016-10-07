@@ -2,23 +2,23 @@
 after_success: codecov
 before_install: pip install codecov
 deploy:
+  user: patpatpatpatpat
   password:
     secure: !!binary |
-      SEhVMzFpM3ZqWThZN3pNY21nb1Q0cEdOOWp4K2xMdE1SN3RHZFBuTFBaV3JNUDR1N2xnSnpQZUxE
-      Vkg2RzAwVGhIemE1RktucHN6VkttRFBZREtPVHdGdDB3RVJjaERJUG5uMWo1bWRwT2ViQ3lTK1kw
-      WXlyTTVGRllSNWI0Z1BIcXZEQm85N0M4TXk4V3FXRDVnb1ZPc0hWRVNVcC95dGJDdVhHNCttVUpv
-      NFR4MG04RnNYaGs2Vit4cERZbVh6dEEzVUptcUlPVmpTcVpJRk96cjRWNU5ubEJOeFg0cWMxTlh1
-      OUt1djFuQU1RSHdBZjZoRlhSbWczVjllb21hUHhGblFKWnBmbXZ6M0pnaDZIdlNPSTcreG5iS3ZG
-      c3FObUo2eDF6ejBYME56VjZ3amVvOWxqVU1nejBOZDB0S1Zpc0RwUzlkVlNTYnZmTDRNdUZQK2FM
-      WHI2YTRmSSs3U3ZSdW9NdjV2RW1RT2c2VHhmOVMyam95YTFmNlVvbjM0SVBrbWpMeTZ3N0JZbUZX
-      dXNpTHc5SjVCUy81SzRrOFZ1OEd2VDdkS3NZb1R6RkdZTGFpeUg0WVo1Q2M5K3JRa0p3TFNkZDNo
-      YXc0dmdxZjhBR3g1cXdwcDNadVZKRDkybFlzdkhQQzhobU1CUktpenU4RDJibm5vSVpFLzNBR25G
-      dTJPQUx1WUhVUENmaFZaeXR2NnppTU9vOUtQcE00UVRnM0I0eHRaSEVRcGJobU9nclpyeEVvOXRZ
-      MHhHYUVQQ0RETVpyYVFLVFhqaWt3andubEpjbFFxemdreWVsOFZ6UkNDREFKdWE3VUhxeUo1cnZh
-      eHczQlV4MVhnaFpoTEtwSnpIazZqYkdpVE8rNUhyWkNRdnRERW96NkFJaXdpcWtSbjE2Vlc2Yms9
-  provider: pypi
-  user: patpatpatpatpat
+      UGNLWVlxTjI3d2s1TWhMSGYwWHIxN0tWTzRmVElnbkhkcUdHUmZrK2FLRElXTkhCY1Y4ZlFaNzZ1
+      V3BvU1NiYUkvam5TWXNVZG9TOStOM2UwR2hkMFE4aFZ4YzNUb0J2cjU3TVBuTFh3TXptaytGY0ZE
+      TnV2YVNhRm1tQlN1S0ZoNnZPODVNb3h2SVNkaUpjUnZNVlFqaGZ2UTl0Y0RlQ2YxNmNOaTBGR1Vt
+      RUE4L2t6SEpCMDUzN1lLK1dvRFdLa2kvMmpCT2MzNkdtR2pmek14bmpiam0wallUSGsrRjFFa3FS
+      bnNnWXNGMGp2dHdERUJoTTNGemFYNEp1eFhSeGRyUmJDSWdQSXZ2VCtoY25QRkJRSDVhbzg5N3hB
+      cVpGUHhKWXlSSHkyTURRNG5VWGZTSlpiY1M1R0Rqa1FxMHkram1NT0M1Sk9uVzFUcmF0NE1OZ2dW
+      VFZOeWw3TzBrQVRWWGVHcWdFL29DNGRhdjNNemdyb3dZYmgrSUdwOGQ5M0NUWkphZ1J0dndWMkM2
+      VTAxOXVMUnJITzd1ZmVzejNkdnVHaEJZeWRPY3dUa1NSeXRHem5SaXhoakRiS0FlTTkrUG5neDZs
+      QzFhUjd6bHpPNjNjOFhIaE1kQUNuMkFXZXhtMTlROVJJeE5DRG5tczB3QS9aQkQ0UDBSemo3SnlY
+      dnNTMlRUVW9iRXNlMzNkeXc0dE1EenBOeURodng4Y2daeEt5VGJ5RHNCUVNXL2xFaUlOWlhsRnVK
+      V0ttcUlBQ1dHclpCaDhHQlNOYk5JenBJYkNUcXlWcWc5eEJZSW5naFE5bnJWSDl4U3lKRXY0ajRl
+      M2dMWDIwMWtqMFBIc3VmU2g1RFZmU0xxNzUyc2NKYkEySHBJbEFrTHB3RW8rQTB2UWhjQVI2V0U9
   distributions: sdist bdist_wheel
+  provider: pypi
   true:
     condition: $TOXENV == py27
     repo: patpatpatpatpat/pycolfin
@@ -30,7 +30,7 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
-install: pip install -U tox
+install: pip install -r requirements_dev.txt
 language: python
 python: 3.5
 script: py.test --cov=pycolfin tests/ --cov-report term-missing
