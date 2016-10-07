@@ -41,6 +41,10 @@ Options:
 * Verbosity = 3
 ![v1](images/v3.png)
 
+## Contributing
+
+* To run tests, `py.test --cov=pycolfin tests/ --cov-report term-missing`
+
 ## Features
 
 * See Issues page: https://github.com/patpatpatpatpat/pycolfin/issues
