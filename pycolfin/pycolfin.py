@@ -8,6 +8,19 @@ from robobrowser import RoboBrowser
 
 init()
 
+USER_ID_MAX_LENGTH = 9
+
+
+def validate_user_id(user_id):
+    """
+    Raise an exception if the user_id does not follow the correct format.
+    """
+    invalid_user_id_msg = 'Invalid User ID. Please use a dash (-). Example: 1234-4567'
+    user_id_pattern = re.compile('(\d{4}-\d{4})')
+
+    if len(user_id) > USER_ID_MAX_LENGTH or not user_id_pattern.match(user_id):
+        raise Exception(invalid_user_id_msg)
+
 
 class COLFin(RoboBrowser):
     """
@@ -43,13 +56,6 @@ class COLFin(RoboBrowser):
         super().open(*args, **kwargs)
         self.check_page_for_errors()
 
-    def _validate_user_id(self, user_id):
-        invalid_user_id_msg = 'Invalid User ID. Please use a dash (-). Example: 1234-4567'
-        user_id_pattern = re.compile('(\d{4}-\d{4})')
-
-        if len(user_id) > 9 or not user_id_pattern.match(user_id):
-            raise Exception(invalid_user_id_msg)
-
     def login(self, user_id, password):
         """
         How colfinancial's user login works
@@ -57,11 +63,12 @@ class COLFin(RoboBrowser):
         Step 1: User ID and password are entered in the form (first) in the login page.
         Step 2: When the form is submitted, it redirects to another page which
                 contains another form (second). The credentials used in the first form are transferred to the second form.
-        Step 3: Once the second form is submitted, colfinancial checks if the credentials
-                are valid. If authorized to log in, page redirects to homepage. If not authorized,
-                an alert containing an error message is showed.
+        Step 3: Once the second form is submitted, colfinancial checks if the
+                credentials are valid. If authorized to log in, page redirects
+                to homepage. If not authorized, an alert containing an error
+                message is showed.
         """
-        self._validate_user_id(user_id)
+        validate_user_id(user_id)
         user1, user2 = user_id.split('-')
         # Step 1
         self.open(self.urls['login'])

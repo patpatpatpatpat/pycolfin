@@ -14,7 +14,7 @@ from click.testing import CliRunner
 from pycolfin import cli, pycolfin
 
 
-class TestCOLFin(object):
+class TestCOLFin:
     """
     Tests for `COLFin` class methods
     """
@@ -77,3 +77,35 @@ class TestCOLFin(object):
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output
+
+
+class TestValidators:
+    def test_valid_user_id(self):
+        """
+        No exception should be raised if the user ID followed the correct format
+        """
+        valid_user_id = '1234-4567'
+        try:
+            pycolfin.validate_user_id(valid_user_id)
+        except Exception as e:
+            import pdb; pdb.set_trace()
+            assert False
+        else:
+            assert True
+
+    def test_invalid_user_id(self):
+        """
+        Raise exception if the user ID did not follow the correct format
+        """
+        invalid_user_ids = [
+            '1234-45678',
+            'invalid_user_id',
+        ]
+
+        for user_id in invalid_user_ids:
+            try:
+                pycolfin.validate_user_id(user_id)
+            except Exception as e:
+                assert True
+            else:
+                assert False
