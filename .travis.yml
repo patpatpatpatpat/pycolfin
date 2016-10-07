@@ -33,4 +33,4 @@ env:
 install: pip install -r requirements_dev.txt
 language: python
 python: 3.5
-script: py.test --cov=pycolfin tests/ --cov-report term-missing
+script: py.test
