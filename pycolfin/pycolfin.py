@@ -31,9 +31,9 @@ class COLFin(RoboBrowser):
         'login': 'https://www.colfinancial.com/ape/Final2/login/l_login_small_NS3.asp',
     }
     plus_urls = {
-        'user_summary': 'https://ph6.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
-        'portfolio_summary': 'https://ph6.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
-        'detailed_portfolio': 'https://ph6.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
+        'user_summary': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
+        'portfolio_summary': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
+        'detailed_portfolio': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
     }
     # The values are the exact strings present in the error pages.
     error_messages = {
