@@ -233,29 +233,7 @@ class COLFin(RoboBrowser):
                 self.detailed_stocks.append(ord_dict)
                 stock_data = []
 
-        _, total_equities, _, total_equities_gain_loss = data[equity_end:][:4]
-
-        total_equities_row = OrderedDict()
-
-        for key, value in ord_dict.items():
-            total_equities_row[key] = ''
-
-            if key == 'Gain/Loss':
-                total_equities_row[key] = 'TOTAL EQUITIES'
-            elif key == '%Gain/Loss':
-                total_equities_row[key] = self.colorize(total_equities)
-        self.detailed_stocks.append(total_equities_row)
-
-        total_equities_gain_loss_row = OrderedDict()
-
-        for key, value in ord_dict.items():
-            total_equities_gain_loss_row[key] = ''
-
-            if key == 'Gain/Loss':
-                total_equities_gain_loss_row[key] = 'TOTAL EQUITIES GAIN/LOSS'
-            elif key == '%Gain/Loss':
-                total_equities_gain_loss_row[key] = self.colorize(total_equities_gain_loss)
-        self.detailed_stocks.append(total_equities_gain_loss)
+        _, self.total_equities, _, self.total_equities_gain_loss = data[equity_end:][:4]
 
     def _process_mutual_fund_data(self, data):
         mf_start = data.index('MUTUAL FUNDS')
@@ -287,29 +265,7 @@ class COLFin(RoboBrowser):
                 self.detailed_mutual_funds.append(ord_dict)
                 mf_data = []
 
-        _, total_mf, _, total_mf_gain_loss = data[mf_end:][:4]
-
-        total_mf_row = OrderedDict()
-
-        for key, value in ord_dict.items():
-            total_mf_row[key] = ''
-
-            if key == 'Gain/Loss':
-                total_mf_row[key] = 'TOTAL MUTUAL FUNDS'
-            elif key == '%Gain/Loss':
-                total_mf_row[key] = self.colorize(total_mf)
-        self.detailed_mutual_funds.append(total_mf_row)
-
-        total_mf_gain_loss_row = OrderedDict()
-
-        for key, value in ord_dict.items():
-            total_mf_gain_loss_row[key] = ''
-
-            if key == 'Gain/Loss':
-                total_mf_gain_loss_row[key] = 'TOTAL EQUITIES GAIN/LOSS'
-            elif key == '%Gain/Loss':
-                total_mf_gain_loss_row[key] = self.colorize(total_mf_gain_loss)
-        self.detailed_mutual_funds.append(total_mf_gain_loss_row)
+        _, self.total_mf, _, self.total_mf_gain_loss = data[mf_end:][:4]
 
     def _process_total_portfolio_data(self, data):
         total_port_trade_value_index = data.index('TOTAL PORTFOLIO TRADE VALUE:') + 1
@@ -336,6 +292,17 @@ class COLFin(RoboBrowser):
                 ])
                 stocks_table.add_row(stock_data)
             print(stocks_table)
+
+            stocks_total_table = PrettyTable(
+                ['Total Equities', 'Total Equities Gain/Loss'],
+                hrules=1,
+            )
+            stocks_total_table.add_row([
+                self.colorize(self.total_equities),
+                self.colorize(self.total_equities_gain_loss),
+            ])
+            print(stocks_total_table)
+
         else:
             raise Exception('No detailed stocks data')
 
@@ -352,5 +319,15 @@ class COLFin(RoboBrowser):
                 ])
                 mf_table.add_row(mf_data)
             print(mf_table)
+
+            mf_total_table = PrettyTable(
+                ['Total Mutual Funds', 'Total Mutual Funds Gain/Loss'],
+                hrules=1,
+            )
+            mf_total_table.add_row([
+                self.colorize(self.total_mf),
+                self.colorize(self.total_mf_gain_loss),
+            ])
+            print(mf_total_table)
         else:
             raise Exception('No detailed mutual fund data')
