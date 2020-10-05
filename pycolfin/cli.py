@@ -8,7 +8,7 @@ from .pycolfin import COLFin
 
 
 verbosity_help = """
-1 = User ID, Last Login, Equity Value, Day Change
+1 = User ID, Last Login
 2 = Display all info from 1 and portfolio summary
 3 = Display all info in 1 & 2 and detailed portfolio
 """
