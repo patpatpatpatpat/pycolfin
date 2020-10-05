@@ -128,8 +128,7 @@ class COLFin(RoboBrowser):
     def show_account_summary(self):
         if hasattr(self, 'account_summary') and self.account_summary:
             table = PrettyTable(self.account_summary.keys(), hrules=1)
-            *account_summary, day_change = self.account_summary.values()
-            account_summary.append(self.colorize(day_change))
+            account_summary = self.account_summary.values()
             table.add_row(account_summary)
             print(table)
         else:
