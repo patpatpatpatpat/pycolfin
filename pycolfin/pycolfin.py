@@ -298,7 +298,7 @@ class COLFin(RoboBrowser):
                 hrules=1,
             )
             stocks_total_table.add_row([
-                self.colorize(self.total_equities),
+                self.total_equities,
                 self.colorize(self.total_equities_gain_loss),
             ])
             print(stocks_total_table)
@@ -325,7 +325,7 @@ class COLFin(RoboBrowser):
                 hrules=1,
             )
             mf_total_table.add_row([
-                self.colorize(self.total_mf),
+                self.total_mf,
                 self.colorize(self.total_mf_gain_loss),
             ])
             print(mf_total_table)
