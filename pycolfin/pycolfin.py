@@ -31,9 +31,9 @@ class COLFin(RoboBrowser):
         'login': 'https://www.colfinancial.com/ape/Final2/login/l_login_small_NS3.asp',
     }
     plus_urls = {
-        'user_summary': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
-        'portfolio_summary': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
-        'detailed_portfolio': 'https://ph18.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
+        'user_summary': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
+        'portfolio_summary': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
+        'detailed_portfolio': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
     }
     # The values are the exact strings present in the error pages.
     error_messages = {
@@ -114,19 +114,16 @@ class COLFin(RoboBrowser):
         Fetch the following data:
         - Account Number
         - Last Login
-        - Equity Value
-        - Day Change
         """
         self.open(self.plus_urls['user_summary'])
         # misc contains: account type (starter|plus) & display type (e.g: real-time streaming)
-        account_with_dash, account, last_login, equity_value, day_change, *misc = [
+
+        account_with_dash, account, last_login = [
             info.text for info
             in self.find_all('b')
         ]
         self.account_summary = OrderedDict()
         self.account_summary['Last Login'] = last_login
-        self.account_summary['Equity Value'] = equity_value
-        self.account_summary['Day Change'] = day_change
 
     def show_account_summary(self):
         if hasattr(self, 'account_summary') and self.account_summary:
