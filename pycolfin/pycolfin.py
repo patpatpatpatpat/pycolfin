@@ -203,6 +203,7 @@ class COLFin(RoboBrowser):
         ]
         self._process_equity_data(cleaned_data)
         self._process_mutual_fund_data(cleaned_data)
+        self._process_total_portfolio_data(cleaned_data)
 
     def _process_equity_data(self, data):
         equity_start = data.index('%Gain/Loss')  # Last item before stock data starts
@@ -233,8 +234,28 @@ class COLFin(RoboBrowser):
                 stock_data = []
 
         _, total_equities, _, total_equities_gain_loss = data[equity_end:][:4]
-        self.total_equities = total_equities
-        self.total_equities_gain_loss = total_equities_gain_loss
+
+        total_equities_row = OrderedDict()
+
+        for key, value in ord_dict.items():
+            total_equities_row[key] = ''
+
+            if key == 'Gain/Loss':
+                total_equities_row[key] = 'TOTAL EQUITIES'
+            elif key == '%Gain/Loss':
+                total_equities_row[key] = self.colorize(total_equities)
+        self.detailed_stocks.append(total_equities_row)
+
+        total_equities_gain_loss_row = OrderedDict()
+
+        for key, value in ord_dict.items():
+            total_equities_gain_loss_row[key] = ''
+
+            if key == 'Gain/Loss':
+                total_equities_gain_loss_row[key] = 'TOTAL EQUITIES GAIN/LOSS'
+            elif key == '%Gain/Loss':
+                total_equities_gain_loss_row[key] = self.colorize(total_equities_gain_loss)
+        self.detailed_stocks.append(total_equities_gain_loss)
 
     def _process_mutual_fund_data(self, data):
         mf_start = data.index('MUTUAL FUNDS')
@@ -267,8 +288,40 @@ class COLFin(RoboBrowser):
                 mf_data = []
 
         _, total_mf, _, total_mf_gain_loss = data[mf_end:][:4]
-        self.total_mf = total_mf
-        self.total_mf_gain_loss = total_mf_gain_loss
+
+        total_mf_row = OrderedDict()
+
+        for key, value in ord_dict.items():
+            total_mf_row[key] = ''
+
+            if key == 'Gain/Loss':
+                total_mf_row[key] = 'TOTAL MUTUAL FUNDS'
+            elif key == '%Gain/Loss':
+                total_mf_row[key] = self.colorize(total_mf)
+        self.detailed_mutual_funds.append(total_mf_row)
+
+        total_mf_gain_loss_row = OrderedDict()
+
+        for key, value in ord_dict.items():
+            total_mf_gain_loss_row[key] = ''
+
+            if key == 'Gain/Loss':
+                total_mf_gain_loss_row[key] = 'TOTAL EQUITIES GAIN/LOSS'
+            elif key == '%Gain/Loss':
+                total_mf_gain_loss_row[key] = self.colorize(total_mf_gain_loss)
+        self.detailed_mutual_funds.append(total_mf_gain_loss_row)
+
+    def _process_total_portfolio_data(self, data):
+        total_port_trade_value_index = data.index('TOTAL PORTFOLIO TRADE VALUE:') + 1
+        port_gain_loss_percent_index = data.index('PORTFOLIO GAIN/LOSS:') + 1
+        port_gain_loss_value_index = data.index('PORTFOLIO GAIN/LOSS:') + 2
+        total_port_trade_value = data[total_port_trade_value_index]
+        port_gain_loss_percent = data[port_gain_loss_percent_index]
+        port_gain_loss_value = data[port_gain_loss_value_index]
+
+        self.account_summary['Total Portfolio Trade Value'] = total_port_trade_value
+        self.account_summary['Portfolio Gain/Loss (%)'] = self.colorize(port_gain_loss_percent)
+        self.account_summary['Portfolio Gain/Loss'] = self.colorize(port_gain_loss_value)
 
     def show_detailed_stocks(self):
         if hasattr(self, 'detailed_stocks') and self.detailed_stocks:

@@ -42,7 +42,6 @@ def main(verbosity, use_env_vars):
 
     if verbosity >= 1:
         account.fetch_account_summary()
-        account.show_account_summary()
     if verbosity >= 2:
         account.fetch_portfolio_summary()
         account.show_portfolio_summary()
@@ -56,6 +55,7 @@ def main(verbosity, use_env_vars):
             account.show_detailed_mutual_fund()
         except Exception as e:
             print(e)
+    account.show_account_summary()
 
 
 if __name__ == "__main__":
