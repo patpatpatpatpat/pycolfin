@@ -203,6 +203,7 @@ class COLFin(RoboBrowser):
         ]
         self._process_equity_data(cleaned_data)
         self._process_mutual_fund_data(cleaned_data)
+        self._process_total_portfolio_data(cleaned_data)
 
     def _process_equity_data(self, data):
         equity_start = data.index('%Gain/Loss')  # Last item before stock data starts
@@ -232,9 +233,7 @@ class COLFin(RoboBrowser):
                 self.detailed_stocks.append(ord_dict)
                 stock_data = []
 
-        _, total_equities, _, total_equities_gain_loss = data[equity_end:][:4]
-        self.total_equities = total_equities
-        self.total_equities_gain_loss = total_equities_gain_loss
+        _, self.total_equities, _, self.total_equities_gain_loss = data[equity_end:][:4]
 
     def _process_mutual_fund_data(self, data):
         mf_start = data.index('MUTUAL FUNDS')
@@ -266,9 +265,19 @@ class COLFin(RoboBrowser):
                 self.detailed_mutual_funds.append(ord_dict)
                 mf_data = []
 
-        _, total_mf, _, total_mf_gain_loss = data[mf_end:][:4]
-        self.total_mf = total_mf
-        self.total_mf_gain_loss = total_mf_gain_loss
+        _, self.total_mf, _, self.total_mf_gain_loss = data[mf_end:][:4]
+
+    def _process_total_portfolio_data(self, data):
+        total_port_trade_value_index = data.index('TOTAL PORTFOLIO TRADE VALUE:') + 1
+        port_gain_loss_percent_index = data.index('PORTFOLIO GAIN/LOSS:') + 1
+        port_gain_loss_value_index = data.index('PORTFOLIO GAIN/LOSS:') + 2
+        total_port_trade_value = data[total_port_trade_value_index]
+        port_gain_loss_percent = data[port_gain_loss_percent_index]
+        port_gain_loss_value = data[port_gain_loss_value_index]
+
+        self.account_summary['Total Portfolio Trade Value'] = total_port_trade_value
+        self.account_summary['Portfolio Gain/Loss (%)'] = self.colorize(port_gain_loss_percent)
+        self.account_summary['Portfolio Gain/Loss'] = self.colorize(port_gain_loss_value)
 
     def show_detailed_stocks(self):
         if hasattr(self, 'detailed_stocks') and self.detailed_stocks:
@@ -283,6 +292,17 @@ class COLFin(RoboBrowser):
                 ])
                 stocks_table.add_row(stock_data)
             print(stocks_table)
+
+            stocks_total_table = PrettyTable(
+                ['Total Equities', 'Total Equities Gain/Loss'],
+                hrules=1,
+            )
+            stocks_total_table.add_row([
+                self.total_equities,
+                self.colorize(self.total_equities_gain_loss),
+            ])
+            print(stocks_total_table)
+
         else:
             raise Exception('No detailed stocks data')
 
@@ -299,5 +319,15 @@ class COLFin(RoboBrowser):
                 ])
                 mf_table.add_row(mf_data)
             print(mf_table)
+
+            mf_total_table = PrettyTable(
+                ['Total Mutual Funds', 'Total Mutual Funds Gain/Loss'],
+                hrules=1,
+            )
+            mf_total_table.add_row([
+                self.total_mf,
+                self.colorize(self.total_mf_gain_loss),
+            ])
+            print(mf_total_table)
         else:
             raise Exception('No detailed mutual fund data')
