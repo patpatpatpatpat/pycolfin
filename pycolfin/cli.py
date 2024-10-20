@@ -7,22 +7,20 @@ import click
 from .pycolfin import COLFin
 
 
-verbosity_help = """
-1 = User ID, Last Login
-2 = Display all info from 1 and portfolio summary
-3 = Display all info in 1 & 2 and detailed portfolio
-"""
 use_env_vars_help = """
 Use USER_ID and PASSWORD from environment variables.
 Not recommended if you are using a shared computer!
 (This is like storing bank credentials in a text file)
 """
+annotate_investment_guide = """
+Include guide from COL
+"""
 
 
 @click.command()
 @click.option('--use-env-vars', is_flag=True, default=False, help=use_env_vars_help)
-@click.option('-v', '--verbosity', default=3, type=click.IntRange(1, 3), help=verbosity_help)
-def main(verbosity, use_env_vars):
+@click.option('--annotate-with-col-guide', is_flag=True, default=False, help=annotate_investment_guide)
+def main(annotate_with_col_guide, use_env_vars):
     if use_env_vars:
         try:
             user_id = os.environ['USER_ID']
@@ -40,23 +38,17 @@ def main(verbosity, use_env_vars):
         click.echo(e.__str__())
         exit()
 
-    if verbosity >= 1:
-        account.fetch_account_summary()
-    if verbosity >= 2:
-        account.fetch_portfolio_summary()
-        account.show_portfolio_summary()
-    if verbosity == 3:
-        account.fetch_detailed_portfolio()
-        try:
-            account.show_detailed_stocks()
-        except Exception as e:
-            print(e)
-        try:
-            account.show_detailed_mutual_fund()
-        except Exception as e:
-            print(e)
-    account.show_account_summary()
+    account.fetch_account_summary()
+    account.fetch_detailed_portfolio()
 
+    if annotate_with_col_guide:
+        account.fetch_investment_guide()
+        account.show_detailed_stocks(annotate_with_col_guide=True)
+    else:
+        account.show_detailed_stocks()
+
+    account.show_detailed_mutual_fund()
+    account.show_account_summary()
 
 if __name__ == "__main__":
     main()

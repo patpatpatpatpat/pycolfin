@@ -34,6 +34,12 @@ class COLFin(RoboBrowser):
         'user_summary': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
         'portfolio_summary': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/B_home_new/TABPORTFOLIO.asp',
         'detailed_portfolio': 'https://ph5.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
+        # investment guide
+    }
+    non_plus_urls = {
+        'user_summary': 'https://ph16.colfinancial.com/ape/FINAL2_STARTER/B_home_new/LOG.asp',
+        'detailed_portfolio': 'https://ph16.colfinancial.com/ape/FINAL2_STARTER/trading_PCA3/As_CashBalStockPos_MF.asp',
+        'investment_guide': 'https://ph16.colfinancial.com/ape/FINAL2_STARTER/Research/INVGUIDE_Mid.asp',
     }
     # The values are the exact strings present in the error pages.
     error_messages = {
@@ -115,7 +121,7 @@ class COLFin(RoboBrowser):
         - Account Number
         - Last Login
         """
-        self.open(self.plus_urls['user_summary'])
+        self.open(self.non_plus_urls['user_summary'])
         # misc contains: account type (starter|plus) & display type (e.g: real-time streaming)
 
         account_with_dash, account, last_login = [
@@ -191,7 +197,7 @@ class COLFin(RoboBrowser):
         """
         Get detailed data about the account's equities and mutual funds.
         """
-        self.open(self.plus_urls['detailed_portfolio'])
+        self.open(self.non_plus_urls['detailed_portfolio'])
         cleaned_data = [
             d.strip().strip('|').strip()
             for d in self.parsed.text.splitlines()
@@ -279,17 +285,35 @@ class COLFin(RoboBrowser):
         self.account_summary['Portfolio Gain/Loss (%)'] = self.colorize(port_gain_loss_percent)
         self.account_summary['Portfolio Gain/Loss'] = self.colorize(port_gain_loss_value)
 
-    def show_detailed_stocks(self):
+    def show_detailed_stocks(self, annotate_with_col_guide=False):
         if hasattr(self, 'detailed_stocks') and self.detailed_stocks:
-            cols = self.detailed_stocks[0].keys()
-            stocks_table = PrettyTable(cols, hrules=1)
+            cols = list(self.detailed_stocks[0].keys()) 
 
+            if annotate_with_col_guide:
+                cols.extend(['COL Rating', 'FV', 'Buy Below'])
+
+            stocks_table = PrettyTable(cols, hrules=1)
             for stock in self.detailed_stocks:
-                *stock_data, gain_loss, percent_gain_loss = stock.values()
+                *stock_data, gain_loss, percent_gain_loss = list(stock.values())
                 stock_data.extend([
                     self.colorize(gain_loss),
                     self.colorize(percent_gain_loss),
                 ])
+
+                if annotate_with_col_guide:
+                    if guide := self.investment_guide.get(stock_data[0]):
+                        stock_data.extend([
+                            guide['col_rating'],
+                            guide['col_fv'],
+                            guide['buy_below'],
+                        ])
+                    else:
+                        stock_data.extend([
+                            'N/A',
+                            'N/A',
+                            'N/A',
+                        ])
+
                 stocks_table.add_row(stock_data)
             print(stocks_table)
 
@@ -331,3 +355,32 @@ class COLFin(RoboBrowser):
             print(mf_total_table)
         else:
             raise Exception('No detailed mutual fund data')
+
+    def fetch_investment_guide(self) -> None:
+        """
+        Fetch the following data
+        """
+        self.open(self.non_plus_urls["investment_guide"])
+        tr_elements = self.find_all('tr')
+
+        guide = {}
+
+        for tr in tr_elements:
+            values = [
+                element.text.strip() for element
+                in tr.find_all('font')
+            ]
+            if not values:
+                continue
+            try:
+                ticker, company_name, price, col_rating, _, col_fv, buy_below, *_ = values
+            except ValueError:
+                continue
+            guide[ticker] = {
+                "company_name": company_name,
+                "price": price,
+                "col_rating": col_rating,
+                "col_fv": col_fv,
+                "buy_below": buy_below,
+            }
+        self.investment_guide = guide
