@@ -140,59 +140,6 @@ class COLFin(RoboBrowser):
         else:
             raise Exception('No account data.')
 
-    def fetch_portfolio_summary(self):
-        """
-        Fetch the table that contains the following:
-        - Stock
-        - Number of Shares
-        - Last Trade Price
-        - Change
-        - % Change
-        """
-        self.open(self.plus_urls['portfolio_summary'])
-        # First item is string 'My Stocks'; ignore
-        _, *data = [
-            val.text.strip() for val
-            in self.find_all('font')
-        ]
-        # First 5 items are the columns, the rest are the stock data
-        stocks_data = data[5:]
-        self.portfolio_summary = []
-        portfolio_summary_cols = [
-            'Stock',
-            'Shares',
-            'Last',
-            'Change',
-            '%Change'
-        ]
-        stock_data = []
-        for num, value in enumerate(stocks_data, start=1):
-            stock_data.append(value)
-            if num % len(portfolio_summary_cols) == 0:
-                ord_dict = OrderedDict()
-                for key, value in zip(portfolio_summary_cols, stock_data):
-                    ord_dict[key] = value
-                self.portfolio_summary.append(ord_dict)
-                stock_data = []
-
-    def show_portfolio_summary(self):
-        if hasattr(self, 'portfolio_summary') and self.portfolio_summary:
-            cols = self.portfolio_summary[0].keys()
-            table = PrettyTable(cols, hrules=1)
-
-            for stock in self.portfolio_summary:
-                *stock_data, last, change, percent_change = stock.values()
-                color = self.get_color(percent_change)
-                stock_data.extend([
-                    self.apply_color(last, color),
-                    self.apply_color(change, color),
-                    self.apply_color(percent_change, color),
-                ])
-                table.add_row(stock_data)
-            print(table)
-        else:
-            raise Exception('No portfolio data')
-
     def fetch_detailed_portfolio(self):
         """
         Get detailed data about the account's equities and mutual funds.
