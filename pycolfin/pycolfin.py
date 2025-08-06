@@ -157,6 +157,22 @@ class COLFin(RoboBrowser):
         self._process_equity_data(cleaned_data)
         self._process_mutual_fund_data(cleaned_data)
         self._process_total_portfolio_data(cleaned_data)
+        self._process_total_equity_value(cleaned_data)
+
+    def _process_total_equity_value(self, data):
+        """
+        data contains a list of strings
+
+        The total equity value can look like this
+
+        "Total Account Equity Value is   123,456.02"
+
+        and it's located after the "Your" string
+        """
+        equity_value_data_index = data.index("Your") + 1
+        equity_value_data = data[equity_value_data_index]
+        equity_value = equity_value_data.split(" ")[-1]
+        self.account_summary["Total Account Equity Value"] = equity_value
 
     def _process_equity_data(self, data):
         equity_start = data.index('%Gain/Loss')  # Last item before stock data starts
