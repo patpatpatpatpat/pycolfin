@@ -4,7 +4,7 @@ from getpass import getpass
 
 import click
 
-from .pycolfin import COLFin
+from pycolfin import COLFin
 
 
 use_env_vars_help = """
