@@ -1,0 +1,10 @@
+[project]
+name = "pycolfin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "prettytable>=3.17.0",
+    "robobrowser>=0.5.3",
+]
